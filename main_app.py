@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify,request
 from database import get_database_connection
 
 app = Flask(__name__)
@@ -57,6 +57,16 @@ def list_jobs_id(id):
   query = "SELECT * from carrer where id=%s"
   result = execute_query_id(conn, query,(id,))
   return render_template('page.html',job=result)
+
+@app.route("/job/<id>/apply", methods=['post'])
+def apply_to_job(id):
+  data = request.form
+  conn=get_database_connection()
+  query = "SELECT * from carrer where id=%s"
+  result = execute_query_id(conn, query,(id,))
+  return render_template('form_submitted.html', 
+                         application=data,
+                         job=result)
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', debug=True)

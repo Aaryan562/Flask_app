@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Application Submitted</title>  
+    {% include 'bootstrap.html' %}
+  </head>
+  <body>
+    {% include 'nav.html' %}
+    {% include 'banner.html' %}
+
+    <div class="container">
+      <h1 class="text-center mt-2 mb-4">
+        Docsumo Careers
+      </h1>
+
+      <p>Your application for the role of <b>{{job['title']}}</b> at Docsumo has been submitted!</p>
+      
+      <b>Full Name</b>
+      <div class="mb-2">{{application['full_name']}}</div>
+  
+      <b>Email</b>
+      <div class="mb-2">{{application['email']}}</div>
+    {% include 'footer.html' %}
+  </body>
+</html>
