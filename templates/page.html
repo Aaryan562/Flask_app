@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'bootstrap.html' %}
+    {% include 'banner.html' %}
+</head>
+<body>
+    {% include 'nav.html' %}
+    <div class="container">
+        <h1 class="text-center mt-2 mb-4">
+          Docsumo Careers
+        </h1>
+        <h3>Title</h1>
+        <h5>{{job['title']}}</h3>
+        <h3>Location</h1>
+        <h5>{{job['location']}}</h3>
+        <h3>Type</h1>
+        <h5>{{job['type']}}</h3>
+    </div>
+</body>
+{% include 'footer.html' %}
+</html>
