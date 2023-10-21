@@ -31,9 +31,21 @@ def execute_query_id(conn, query, params=None):
       result.append(dict(zip(column_names, row)))
 
   cur.close()
-  conn.close()
 
   return result[0]
+
+def insert_application(conn, name, email,title):
+    cur = conn.cursor()
+    query = "INSERT INTO form (name, email,title) VALUES (%s, %s,%s)"
+    cur.execute(query, (name, email,title))
+    conn.commit()
+    cur.close()
+
+def email_exists(conn, email):
+    cur = conn.cursor()
+    query = "SELECT email FROM form WHERE email = %s"
+    cur.execute(query, (email,))
+    return cur.fetchone() is not None
 
 @app.route("/")
 def hello_docsumo():
@@ -61,9 +73,19 @@ def list_jobs_id(id):
 @app.route("/job/<id>/apply", methods=['post'])
 def apply_to_job(id):
   data = request.form
+  name = data.get("name")
+  email = data.get("email")
   conn=get_database_connection()
+  if email_exists(conn, email):
+     return "You can't apply to multiple positions with the same email."
   query = "SELECT * from carrer where id=%s"
   result = execute_query_id(conn, query,(id,))
+  if not result:
+     return "Job not found"
+  
+  insert_application(conn,name, email,result['title'])
+
+  
   return render_template('form_submitted.html', 
                          application=data,
                          job=result)
